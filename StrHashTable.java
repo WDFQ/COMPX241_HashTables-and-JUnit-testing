@@ -5,17 +5,17 @@ public class StrHashTable {
 
     /**
      * Returns the hash code (array index) 
-     * @param key key
+     * @param k key
      * @return hash code
      */
-    private int hashFunction(String key){
-        //ascii array to hold all ascii values of each letter in key
-        int[] asciiArray = new int[key.length()];
+    private int hashFunction(String k){
+        //ascii array to hold all ascii values of each letter in k
+        int[] asciiArray = new int[k.length()];
 
-        //converts all characters in key to ascii value
-        for (int i = 0; i < key.length(); i++) {
+        //converts all characters in k to ascii value
+        for (int i = 0; i < k.length(); i++) {
             //gets the char at i index in the key
-            char c = key.charAt(i);
+            char c = k.charAt(i);
             //casts char to integer
             int asciiValue = (int)c;
             //add ascii value to the array
@@ -28,21 +28,16 @@ public class StrHashTable {
 
         ArrayList<String> chunkedStringList = new ArrayList<>();
         String chunkedString = "";
-        int counter = 1;
-
-        for (int ascii : asciiArray) {
+            
+        for (int i = 0; i < asciiArray.length; i++) {
+            chunkedString += asciiArray[i];
             //if not at the chunk size limit yet, append to the chunked string
-            if (counter % chunkSize == 0){
-                //puts the ascii array in current index into the list
-                chunkedString += asciiArray[ascii];
+            if ((i + 1) % chunkSize == 0 || i == asciiArray.length - 1){
                 //add chunked string into chunked String list and reset chunkedString variable
                 chunkedStringList.add(chunkedString);
                 chunkedString = "";
             }
-            else{
-                //append to chunked String
-                chunkedString += asciiArray[ascii];
-            }
+
         }
 
         //sum all number and mod by array size
@@ -56,17 +51,17 @@ public class StrHashTable {
     }
 
     /**
-     * Inserts a value into hash table
-     * @param key the key for the node
-     * @param value the value of the node
+     * Inserts a v into hash table
+     * @param k the k for the node
+     * @param v the v of the node
      */
-    public void insert(String key, String value){
+    public void insert(String k, String v){
         //get index from hash function
-        int index = hashFunction(key);
+        int index = hashFunction(k);
 
         //if the index is empty, create new node and put into array at index
         if(nodeArray[index] == null){
-            Node newNode = new Node(key, value);
+            Node newNode = new Node(k, v);
             nodeArray[index] = newNode;
         }
         else{
@@ -75,30 +70,30 @@ public class StrHashTable {
     }
 
     /**
-     * Deletes a value from a given key in the hashtable
-     * @param key the key passed in
+     * Deletes a v from a given k in the hashtable
+     * @param k the k passed in
      */
-    public void delete(String key){
+    public void delete(String k){
         //get index from hash function
-        int index = hashFunction(key);
+        int index = hashFunction(k);
 
         //if slot at index is not empty, make that slot equal to null
         if(nodeArray[index] != null){
             nodeArray[index] = null;
         }
         else{
-            System.out.println("Key does not exist in table");
+            System.out.println("key does not exist in table");
         }
     }
 
     /**
-     * Finds if a value exists in the hash table
-     * @param key key passed in
+     * Finds if a v exists in the hash table
+     * @param k k passed in
      * @return returns a bool
      */
-    public boolean contains(String key){
+    public boolean contains(String k){
         //get index from hash function
-        int index = hashFunction(key);
+        int index = hashFunction(k);
 
         //if it contains something at index, return true
         if(nodeArray[index] != null){
@@ -110,40 +105,40 @@ public class StrHashTable {
     }
     
     /**
-     * Gets the value of the corresponding key
-     * @param key key passed in
-     * @return the value 
+     * Gets the v of the corresponding k
+     * @param k k passed in
+     * @return the v 
      */
-    public String get(String key){
+    public String get(String k){
         //gets index from hash function
-        int index = hashFunction(key);
+        int index = hashFunction(k);
 
-        //if it contains the item, return its value
+        //if it contains the item, return its v
         if(nodeArray[index] != null){
             return nodeArray[index].getValue();
         }
         else{
-            System.out.println("Key does not exist in table");
+            System.out.println("key does not exist in table");
             return null;
         }
     }
 
     /**
      * checks if table is empty
-     * @param key key passed in 
+     * @param k k passed in 
      * @return returns if its true or false
      */
     public boolean isEmpty(){
 
-        //loop through nodeArray to check if every value is empty
+        //loop through nodeArray to check if every v is empty
         for (int i = 0; i < nodeArray.length; i++) {
-            //add to counter for every null value
+            //add to counter for every null v
             if(nodeArray[i] != null){
-                return true;
+                return false;
             }
         }   
 
-       return false;
+       return true;
     }
 
     /**
@@ -152,9 +147,9 @@ public class StrHashTable {
      */
     public int count(){
         int counter = 0;
-        //loop through nodeArray to check if each value is empty or not
+        //loop through nodeArray to check if each v is empty or not
         for (int i = 0; i < nodeArray.length; i++) {
-            //add to counter for every non null value
+            //add to counter for every non null v
             if(nodeArray[i] != null){
                 counter++;
             }
@@ -173,7 +168,7 @@ public class StrHashTable {
             return;
         }
 
-        //loop thorugh array and print each value
+        //loop thorugh array and print each v
         for (int i = 0; i < nodeArray.length; i++) {
             if(nodeArray[i] != null){
                 System.out.println(i + ": " + nodeArray[i].getKey() + ", " + nodeArray[i].getValue());
@@ -195,7 +190,7 @@ public class StrHashTable {
         //loop thorugh old array
         for (Node node : oldNodeArray) {
             if(node != null){
-                //get new index for each key in old array and store it in new array
+                //get new index for each k in old array and store it in new array
                 int newIndex = hashFunction(node.getKey());
                 nodeArray[newIndex] = node;
             }
