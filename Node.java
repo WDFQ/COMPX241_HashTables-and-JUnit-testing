@@ -3,8 +3,8 @@ public class Node{
     public String value;
 
     public Node(String key, String value){
-        key = this.key;
-        value = this.value;
+        this.key = key;
+        this.value = value;
     }
 
     /**

@@ -1,7 +1,8 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 
-public class StrHashTable {
-    private Node[] nodeArray = new Node[9]; 
+public class StrHashTableCollisions {
+    private LinkedList<Node>[] linkedListArray;
 
     /**
      * Returns the hash code (array index) 
@@ -47,7 +48,7 @@ public class StrHashTable {
         }
 
         //returns the index of the node
-        return summedNums % nodeArray.length;
+        return summedNums % linkedListArray.length;
     }
 
     /**
@@ -61,18 +62,19 @@ public class StrHashTable {
         if (loadFactor() >= 0.8) {
             rehash();
         }
-
+        
         //get index from hash function
         int index = hashFunction(k);
+        Node newNode = new Node(k, v);
 
         //if the index is empty, create new node and put into array at index
-        if(nodeArray[index] == null){
-            Node newNode = new Node(k, v);
-            nodeArray[index] = newNode;
+        if(linkedListArray[index] == null){
+            
+            linkedListArray[index] = new LinkedList<>();
         }
-        else{
-            System.out.println("Err: Collision at index " + index + ", value will not be inserted");
-        }
+        
+        linkedListArray[index].add(newNode);
+       
     }
 
     /**
@@ -84,8 +86,8 @@ public class StrHashTable {
         int index = hashFunction(k);
 
         //if slot at index is not empty, make that slot equal to null
-        if(nodeArray[index] != null){
-            nodeArray[index] = null;
+        if(linkedListArray[index] != null){
+            linkedListArray[index] = null;
         }
         else{
             System.out.println("key does not exist in table");
@@ -102,7 +104,11 @@ public class StrHashTable {
         int index = hashFunction(k);
 
         //if it contains something at index, return true
-        if(nodeArray[index] != null && nodeArray[index].getKey().equals(k)){
+        if(linkedListArray[index] != null && linkedListArray[index].getKey().equals(k)){
+
+            for (LinkedList<LinkedList> linkedList : linkedListArray) {
+                
+            }
             return true;
         }
         else{
@@ -121,8 +127,8 @@ public class StrHashTable {
         int index = hashFunction(k);
 
         //if it contains the item, return its v
-        if(nodeArray[index] != null && nodeArray[index].getKey().equals(k)){
-            return nodeArray[index].getValue();
+        if(linkedListArray[index] != null && linkedListArray[index].getKey().equals(k)){
+            return linkedListArray[index].getValue();
         }
         else{
             System.out.println("key does not exist in table");
@@ -138,9 +144,9 @@ public class StrHashTable {
     public boolean isEmpty(){
 
         //loop through nodeArray to check if every v is empty
-        for (int i = 0; i < nodeArray.length; i++) {
+        for (int i = 0; i < linkedListArray.length; i++) {
             //add to counter for every null v
-            if(nodeArray[i] != null){
+            if(linkedListArray[i] != null){
                 return false;
             }
         }   
@@ -155,9 +161,9 @@ public class StrHashTable {
     public int count(){
         int counter = 0;
         //loop through nodeArray to check if each v is empty or not
-        for (int i = 0; i < nodeArray.length; i++) {
+        for (int i = 0; i < linkedListArray.length; i++) {
             //add to counter for every non null v
-            if(nodeArray[i] != null){
+            if(linkedListArray[i] != null){
                 counter++;
             }
         }   
@@ -176,9 +182,9 @@ public class StrHashTable {
         }
 
         //loop thorugh array and print each v
-        for (int i = 0; i < nodeArray.length; i++) {
-            if(nodeArray[i] != null){
-                System.out.println(i + ": " + nodeArray[i].getKey() + ", " + nodeArray[i].getValue());
+        for (int i = 0; i < linkedListArray.length; i++) {
+            if(linkedListArray[i] != null){
+                System.out.println(i + ": " + linkedListArray[i].getKey() + ", " + linkedListArray[i].getValue());
             }
         }   
     }
@@ -187,7 +193,7 @@ public class StrHashTable {
      * @return load factor
      */
     private double loadFactor() {
-        return (double) count() / nodeArray.length;
+        return (double) count() / linkedListArray.length;
     }
 
     /**
@@ -195,21 +201,20 @@ public class StrHashTable {
      */
     public void rehash(){
         //calculate the new array size
-        int newArraySize = nodeArray.length * 2;
+        int newArraySize = linkedListArray.length * 2;
 
         //store old array and reinitialise old array to be the new array with double the size
-        Node[] oldNodeArray = nodeArray;
-        nodeArray = new Node[newArraySize];
+        Node[] oldNodeArray = linkedListArray;
+        linkedListArray = new Node[newArraySize];
 
         //loop thorugh old array
         for (Node node : oldNodeArray) {
             if(node != null){
                 //get new index for each k in old array and store it in new array
                 int newIndex = hashFunction(node.getKey());
-                nodeArray[newIndex] = node;
+                linkedListArray[newIndex] = node;
             }
         }
     }
 
-
-}
+}   
