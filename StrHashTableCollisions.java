@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class StrHashTableCollisions {
-    private LinkedList<Node>[] linkedListArray;
+    private LinkedList<Node>[] linkedListArray = new LinkedList[9];
 
     /**
      * Returns the hash code (array index) 
@@ -103,13 +103,16 @@ public class StrHashTableCollisions {
         //get index from hash function
         int index = hashFunction(k);
 
-        //if it contains something at index, return true
-        if(linkedListArray[index] != null && linkedListArray[index].getKey().equals(k)){
-
-            for (LinkedList<LinkedList> linkedList : linkedListArray) {
-                
+        if(linkedListArray[index] != null){
+            
+            //if the key exists inside the linked list at current index return true
+            for (Node node : linkedListArray[index]) {
+                if (node.getKey().equals(k)) {
+                    return true;
+                }
             }
-            return true;
+
+            return false;
         }
         else{
             return false;
@@ -126,14 +129,17 @@ public class StrHashTableCollisions {
         //gets index from hash function
         int index = hashFunction(k);
 
-        //if it contains the item, return its v
-        if(linkedListArray[index] != null && linkedListArray[index].getKey().equals(k)){
-            return linkedListArray[index].getValue();
+        //if it contains the key, loop through the linked list at current index to grab it
+        if (this.contains(k)) {
+            for (Node node : linkedListArray[index]) {
+                if (node.getKey().equals(k)) {
+                    return node.getKey();
+                }
+            }
         }
-        else{
-            System.out.println("key does not exist in table");
-            return null;
-        }
+
+        System.out.println("key does not exist in table");
+        return null;
     }
 
     /**
@@ -160,12 +166,15 @@ public class StrHashTableCollisions {
      */
     public int count(){
         int counter = 0;
-        //loop through nodeArray to check if each v is empty or not
+        //loop through linkedListArray to check if each bucket is empty or not
         for (int i = 0; i < linkedListArray.length; i++) {
-            //add to counter for every non null v
-            if(linkedListArray[i] != null){
-                counter++;
-            }
+            //if bucket isnt null
+            if (linkedListArray[i] != null) {
+                //count  every entry in the bucket
+                for (int j = 0; j < linkedListArray[i].size(); j++) {
+                    counter++;
+                }
+            }            
         }   
 
         return counter;
@@ -181,13 +190,17 @@ public class StrHashTableCollisions {
             return;
         }
 
-        //loop thorugh array and print each v
+        //loop thorugh array and print 
         for (int i = 0; i < linkedListArray.length; i++) {
+
             if(linkedListArray[i] != null){
-                System.out.println(i + ": " + linkedListArray[i].getKey() + ", " + linkedListArray[i].getValue());
+                for (Node node : linkedListArray[i]) {
+                    System.out.println(i + ": " + node.getKey() + ", " + node.getValue());
+                }
             }
         }   
     }
+
     /**
      * checks if the load factor is greater than 0.8, if so, rehash
      * @return load factor
@@ -204,17 +217,31 @@ public class StrHashTableCollisions {
         int newArraySize = linkedListArray.length * 2;
 
         //store old array and reinitialise old array to be the new array with double the size
-        Node[] oldNodeArray = linkedListArray;
-        linkedListArray = new Node[newArraySize];
+        LinkedList<Node>[] oldLinkedListArray = linkedListArray;
+        linkedListArray = new LinkedList[newArraySize];
 
         //loop thorugh old array
-        for (Node node : oldNodeArray) {
-            if(node != null){
-                //get new index for each k in old array and store it in new array
-                int newIndex = hashFunction(node.getKey());
-                linkedListArray[newIndex] = node;
+        for (int i = 0; i < oldLinkedListArray.length; i++) {
+            for (Node node : oldLinkedListArray[i]) {
+                if(node != null){
+                    //get new index for each k in old array and store it in new array
+                    int newIndex = hashFunction(node.getKey());
+                     //if the index is empty, create new node and put into array at index
+
+                    if(linkedListArray[newIndex] == null){
+                        
+                        linkedListArray[newIndex] = new LinkedList<>();
+                    }
+                    else{
+                        linkedListArray[newIndex].add(node);
+                    }
+                    
+                    
+                }
             }
         }
+
+        
     }
 
 }   

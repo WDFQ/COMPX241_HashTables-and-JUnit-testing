@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        StrHashTable hashTable = new StrHashTable();
+        StrHashTableCollisions hashTable = new StrHashTableCollisions();
 
         hashTable.insert("1", "one");
         hashTable.insert("2", "two");
