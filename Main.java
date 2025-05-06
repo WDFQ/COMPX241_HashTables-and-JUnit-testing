@@ -7,7 +7,7 @@ public class Main {
         hashTable.insert("3", "three");
         hashTable.insert("4", "four");
 
-        //hashTable.delete("2");
+        hashTable.delete("2");
 
         hashTable.insert("5", "five");
         hashTable.insert("6", "six");
@@ -18,6 +18,8 @@ public class Main {
         hashTable.insert("9", "nine");
         hashTable.insert("10", "ten");
         hashTable.insert("11", "eleven");
+        hashTable.insert("12", "twelve");
+
         hashTable.dump();
         System.out.println();
         System.out.println();

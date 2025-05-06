@@ -218,30 +218,32 @@ public class StrHashTableCollisions {
 
         //store old array and reinitialise old array to be the new array with double the size
         LinkedList<Node>[] oldLinkedListArray = linkedListArray;
+        
         linkedListArray = new LinkedList[newArraySize];
 
         //loop thorugh old array
         for (int i = 0; i < oldLinkedListArray.length; i++) {
-            for (Node node : oldLinkedListArray[i]) {
-                if(node != null){
-                    //get new index for each k in old array and store it in new array
-                    int newIndex = hashFunction(node.getKey());
-                     //if the index is empty, create new node and put into array at index
+            if (oldLinkedListArray[i] != null) {
+                for (Node node : oldLinkedListArray[i]) {
 
-                    if(linkedListArray[newIndex] == null){
+                    if(node != null){
+                        //get new index for each k in old array and store it in new array
+                        int newIndex = hashFunction(node.getKey());
+                         //if the index is empty, create new node and put into array at index
+    
+                        if(linkedListArray[newIndex] == null){
+                            
+                            linkedListArray[newIndex] = new LinkedList<>();
+                            
+                        }
                         
-                        linkedListArray[newIndex] = new LinkedList<>();
-                    }
-                    else{
                         linkedListArray[newIndex].add(node);
+                        
+                        
                     }
-                    
-                    
                 }
             }
+            
         }
-
-        
     }
-
 }   
