@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class StrHashTableCollisions {
-    private LinkedList<Node>[] linkedListArray = new LinkedList[9];
+    private LinkedList<Node>[] linkedListArray = new LinkedList[10];
 
     /**
      * Returns the hash code (array index) 
@@ -32,13 +32,12 @@ public class StrHashTableCollisions {
             
         for (int i = 0; i < asciiArray.length; i++) {
             chunkedString += asciiArray[i];
-            //if not at the chunk size limit yet, append to the chunked string
+            //if not at the chunk size limit yet, append. Also add last value to regardless
             if ((i + 1) % chunkSize == 0 || i == asciiArray.length - 1){
                 //add chunked string into chunked String list and reset chunkedString variable
                 chunkedStringList.add(chunkedString);
                 chunkedString = "";
             }
-
         }
 
         //sum all number and mod by array size
@@ -59,7 +58,7 @@ public class StrHashTableCollisions {
     public void insert(String k, String v){
 
         //check to see if rehash is needed
-        if (loadFactor() >= 0.8) {
+        if ((double)(count() / linkedListArray.length) >= 0.8) {
             rehash();
         }
         
@@ -68,7 +67,7 @@ public class StrHashTableCollisions {
         Node newNode = new Node(k, v);
 
         //if the index is empty, create new node and put into array at index
-        if(linkedListArray[index] == null){
+        if(linkedListArray[index] == null){ 
             
             linkedListArray[index] = new LinkedList<>();
         }
@@ -184,11 +183,6 @@ public class StrHashTableCollisions {
      * prints all values 
      */
     public void dump(){
-        //check if table is empty first, if so, exit function
-        if(isEmpty()){
-            System.out.println("Emtpy Table");
-            return;
-        }
 
         //loop thorugh array and print 
         for (int i = 0; i < linkedListArray.length; i++) {
@@ -198,15 +192,10 @@ public class StrHashTableCollisions {
                     System.out.println(i + ": " + node.getKey() + ", " + node.getValue());
                 }
             }
+            else{
+                System.out.println(i + ": " + "null");
+            }
         }   
-    }
-
-    /**
-     * checks if the load factor is greater than 0.8, if so, rehash
-     * @return load factor
-     */
-    private double loadFactor() {
-        return (double) count() / linkedListArray.length;
     }
 
     /**
@@ -236,10 +225,8 @@ public class StrHashTableCollisions {
                             linkedListArray[newIndex] = new LinkedList<>();
                             
                         }
-                        
+
                         linkedListArray[newIndex].add(node);
-                        
-                        
                     }
                 }
             }
