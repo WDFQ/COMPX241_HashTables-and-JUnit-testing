@@ -70,9 +70,16 @@ public class StrHashTableCollisions {
         if(linkedListArray[index] == null){ 
             
             linkedListArray[index] = new LinkedList<>();
+            linkedListArray[index].add(newNode);
+        }
+        else{
+            //check if it contains key
+            if (!this.contains(k)) {
+                linkedListArray[index].add(newNode);
+            }
         }
         
-        linkedListArray[index].add(newNode);
+        
        
     }
 
@@ -86,7 +93,17 @@ public class StrHashTableCollisions {
 
         //if slot at index is not empty, make that slot equal to null
         if(linkedListArray[index] != null){
-            linkedListArray[index] = null;
+            if (linkedListArray[index].size() == 1) {
+                linkedListArray[index] = null;
+            }
+            else{
+                for(Node node: linkedListArray[index]){
+                    if (node.getKey().equals(k)) {
+                        linkedListArray[index].remove(node);
+                    }
+                }
+            }
+            
         }
         else{
             System.out.println("key does not exist in table");
@@ -132,7 +149,7 @@ public class StrHashTableCollisions {
         if (this.contains(k)) {
             for (Node node : linkedListArray[index]) {
                 if (node.getKey().equals(k)) {
-                    return node.getKey();
+                    return node.getValue();
                 }
             }
         }
