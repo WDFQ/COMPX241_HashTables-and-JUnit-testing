@@ -15,10 +15,10 @@ public class Main {
         
 
         hashTable.insert("eight", "8");
-        hashTable.insert("nine", "9");
-        hashTable.insert("ten", "10");
-        hashTable.insert("eleven", "11");
-        hashTable.insert("twelve", "12");
+       // hashTable.insert("nine", "9");
+        // hashTable.insert("ten", "10");
+        // hashTable.insert("eleven", "11");
+        // hashTable.insert("twelve", "12");
 
         hashTable.dump();
         System.out.println();
@@ -32,6 +32,8 @@ public class Main {
         System.out.println();
         System.out.println(hashTable.get("eight"));
         System.out.println("is emtpy? " + hashTable.isEmpty());
+
+
       
     }
 }

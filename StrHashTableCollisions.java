@@ -4,6 +4,8 @@ import java.util.LinkedList;
 public class StrHashTableCollisions {
     private LinkedList<Node>[] linkedListArray = new LinkedList[10];
 
+    private final double LOAD_BALANCE = 0.8;
+
     /**
      * Returns the hash code (array index) 
      * @param k key
@@ -56,11 +58,6 @@ public class StrHashTableCollisions {
      * @param v the v of the node
      */
     public void insert(String k, String v){
-
-        //check to see if rehash is needed
-        if ((double)(count() / linkedListArray.length) >= 0.8) {
-            rehash();
-        }
         
         //get index from hash function
         int index = hashFunction(k);
@@ -79,7 +76,10 @@ public class StrHashTableCollisions {
             }
         }
         
-        
+        //check to see if rehash is needed
+        if (((double)this.count() / (double)linkedListArray.length) >= LOAD_BALANCE) {
+            rehash();
+        }
        
     }
 
@@ -155,7 +155,7 @@ public class StrHashTableCollisions {
         }
 
         System.out.println("key does not exist in table");
-        return null;
+        return "";
     }
 
     /**
