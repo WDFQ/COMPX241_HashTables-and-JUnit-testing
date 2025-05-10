@@ -24,7 +24,7 @@ public class StrHashTableCollisions {
             //add ascii value to the array
             asciiArray[i] = asciiValue;
         }
-        //group values to set size of s
+        
 
         //split ascii array into chunks of 3
         int chunkSize = 3;
@@ -84,8 +84,8 @@ public class StrHashTableCollisions {
     }
 
     /**
-     * Deletes a v from a given k in the hashtable
-     * @param k the k passed in
+     * Deletes a value from a given key in the hashtable
+     * @param k the key passed in
      */
     public void delete(String k){
         //get index from hash function
@@ -112,7 +112,7 @@ public class StrHashTableCollisions {
 
     /**
      * Finds if a v exists in the hash table
-     * @param k k passed in
+     * @param k key passed in
      * @return returns a bool
      */
     public boolean contains(String k){
@@ -136,9 +136,9 @@ public class StrHashTableCollisions {
     }
     
     /**
-     * Gets the v of the corresponding k
-     * @param k k passed in
-     * @return the v 
+     * Gets the value of the corresponding key
+     * @param k key passed in
+     * @return the value 
      */
     public String get(String k){
 
@@ -160,7 +160,7 @@ public class StrHashTableCollisions {
 
     /**
      * checks if table is empty
-     * @param k k passed in 
+     * @param k key passed in 
      * @return returns if its true or false
      */
     public boolean isEmpty(){

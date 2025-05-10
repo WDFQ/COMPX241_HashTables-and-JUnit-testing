@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 
 public class StrHashTable {
-    private Node[] nodeArray = new Node[9]; 
+    private Node[] nodeArray = new Node[10]; 
+    private final double LOAD_BALANCE = 0.8;
 
     /**
      * Returns the hash code (array index) 
@@ -51,33 +52,33 @@ public class StrHashTable {
     }
 
     /**
-     * Inserts a v into hash table
-     * @param k the k for the node
-     * @param v the v of the node
+     * Inserts a value into hash table
+     * @param k the key for the node
+     * @param v the value of the node
      */
     public void insert(String k, String v){
 
-        //check to see if rehash is needed
-        if (loadFactor() >= 0.8) {
-            rehash();
-        }
-
         //get index from hash function
         int index = hashFunction(k);
+        Node newNode = new Node(k, v);
 
         //if the index is empty, create new node and put into array at index
         if(nodeArray[index] == null){
-            Node newNode = new Node(k, v);
             nodeArray[index] = newNode;
         }
         else{
             System.out.println("Err: Collision at index " + index + ", value will not be inserted");
         }
+
+         //check to see if rehash is needed after new insert
+         if (((double)this.count() / (double)nodeArray.length) >= LOAD_BALANCE) {
+            rehash();
+        }
     }
 
     /**
-     * Deletes a v from a given k in the hashtable
-     * @param k the k passed in
+     * Deletes a value from a given key in the hashtable
+     * @param k the key passed in
      */
     public void delete(String k){
         //get index from hash function
@@ -93,15 +94,15 @@ public class StrHashTable {
     }
 
     /**
-     * Finds if a v exists in the hash table
-     * @param k k passed in
+     * Finds if a value exists in the hash table
+     * @param k key passed in
      * @return returns a bool
      */
     public boolean contains(String k){
         //get index from hash function
         int index = hashFunction(k);
 
-        //if it contains something at index, return true
+        //if it contains something at index and keys match, return true
         if(nodeArray[index] != null && nodeArray[index].getKey().equals(k)){
             return true;
         }
@@ -112,8 +113,8 @@ public class StrHashTable {
     
     /**
      * Gets the v of the corresponding k
-     * @param k k passed in
-     * @return the v 
+     * @param k key passed in
+     * @return the value
      */
     public String get(String k){
 
@@ -126,20 +127,20 @@ public class StrHashTable {
         }
         else{
             System.out.println("key does not exist in table");
-            return null;
+            return "";
         }
     }
 
     /**
      * checks if table is empty
-     * @param k k passed in 
+     * @param k key passed in 
      * @return returns if its true or false
      */
     public boolean isEmpty(){
 
         //loop through nodeArray to check if every v is empty
         for (int i = 0; i < nodeArray.length; i++) {
-            //add to counter for every null v
+            //add to counter for every null value
             if(nodeArray[i] != null){
                 return false;
             }
@@ -169,25 +170,16 @@ public class StrHashTable {
      * prints all values 
      */
     public void dump(){
-        //check if table is empty first, if so, exit function
-        if(isEmpty()){
-            System.out.println("Emtpy Table");
-            return;
-        }
 
         //loop thorugh array and print each v
         for (int i = 0; i < nodeArray.length; i++) {
             if(nodeArray[i] != null){
                 System.out.println(i + ": " + nodeArray[i].getKey() + ", " + nodeArray[i].getValue());
             }
+            else{
+                System.out.println(i + ": " + "null");
+            }
         }   
-    }
-    /**
-     * checks if the load factor is greater than 0.8, if so, rehash
-     * @return load factor
-     */
-    private double loadFactor() {
-        return (double) count() / nodeArray.length;
     }
 
     /**
@@ -210,6 +202,4 @@ public class StrHashTable {
             }
         }
     }
-
-
 }
