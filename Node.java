@@ -1,6 +1,6 @@
 public class Node{
-    public String key;
-    public String value;
+    private String key;
+    private String value;
 
     public Node(String key, String value){
         this.key = key;

@@ -22,7 +22,6 @@ public class StrHashTable {
             //add ascii value to the array
             asciiArray[i] = asciiValue;
         }
-        //group values to set size of s
 
         //split ascii array into chunks of 3
         int chunkSize = 3;
@@ -162,7 +161,6 @@ public class StrHashTable {
                 counter++;
             }
         }   
-
         return counter;
     }
 

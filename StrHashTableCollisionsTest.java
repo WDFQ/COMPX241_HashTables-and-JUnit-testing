@@ -52,7 +52,7 @@ public class StrHashTableCollisionsTest {
         hashTable.dump();
 
         String actual = outputStreamCaptor.toString().trim();
-        String expected = "0: null\r\n" + 
+        String expected = "0:    null\r\n" + 
                         "1: null\r\n" + 
                         "2: null\r\n" + 
                         "3: null\r\n" + 

@@ -1,14 +1,15 @@
 public class Main {
     public static void main(String[] args) {
         StrHashTable hashTable = new StrHashTable();
-        // StrHashTableCollisions hashTable = new StrHashTableCollisions();
+        //StrHashTableCollisions hashTable = new StrHashTableCollisions();
 
-        hashTable.insert("one", "1");
-        hashTable.insert("two", "2");
-        hashTable.insert("three", "3");
-        hashTable.insert("four", "4");
+        hashTable.insert("1", "one");
+        hashTable.dump();
+        // hashTable.insert("two", "2");
+        // hashTable.insert("three", "3");
+        // hashTable.insert("four", "4");
 
-        // hashTable.delete("2");
+        // //hashTable.delete("2");
 
         // hashTable.insert("five", "5");
         // hashTable.insert("six", "6");
@@ -21,8 +22,14 @@ public class Main {
         // hashTable.insert("ten", "10");
         // hashTable.insert("eleven", "11");
         // hashTable.insert("twelve", "12");
-
-        hashTable.dump();
+        // hashTable.insert("thirteen", "13");
+        // hashTable.insert("fourteen", "14");
+        // hashTable.insert("fifteen", "15");
+        
+        
+        //System.out.println(hashTable.count());
+        
+        
         // System.out.println();
         // System.out.println();
 

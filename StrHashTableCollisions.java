@@ -3,7 +3,6 @@ import java.util.LinkedList;
 
 public class StrHashTableCollisions {
     private LinkedList<Node>[] linkedListArray = new LinkedList[10];
-
     private final double LOAD_BALANCE = 0.8;
 
     /**
